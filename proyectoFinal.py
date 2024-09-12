@@ -14,13 +14,20 @@ def main():
     
     def calculate():
         cost = int(float(cost_entry.get()))
-        ammount = int(float(ammount_entry.get()))
-        commission = float(commission_entry.get())
+        technical_cost = int(float(technical_cost_entry.get()))
+        logystics = float(logystics_cost_entry.get())
+        seller_commission = cost * DEFAULT_VALUES["DEFAULT_COMMISSION"]
+        owner_commission = cost * DEFAULT_VALUES["OWNER_COMMISSION"]
         
-        total = ammount - cost
-        seller_commission = total * commission
+        cost_before_taxes = cost + technical_cost + logystics
+        total_cost = cost_before_taxes + seller_commission + owner_commission + (cost_before_taxes * DEFAULT_VALUES["TAXES"]) + (cost_before_taxes * DEFAULT_VALUES["RENTABILITY"]) + (cost_before_taxes * DEFAULT_VALUES["STRUCTURE"])
         
-        print(f"Total: {total:,.2f}\nSeller commission: {seller_commission:,.2f}")
+        ideal_price = total_cost * 1.2
+        
+        if ideal_price*DEFAULT_VALUES["RENTABILITY"] < total_cost:
+            ideal_price = total_cost * 2
+        
+        print(f"Precio de venta mínimo sugerido: {ideal_price:,.2f}\n")
                 
         
     window = tk.Tk()
@@ -36,25 +43,25 @@ def main():
     # Labels
     product_label = tk.Label(query_frame, text="Producto")
     cost_label = tk.Label(query_frame, text="Costo del producto")
-    ammount_label = tk.Label(query_frame, text="Precio de venta")
-    commission_label = tk.Label(query_frame, text="Comisión del vendedor")
+    technical_cost_label = tk.Label(query_frame, text="Costo del técnico instrumentador")
+    logystics_cost_label = tk.Label(query_frame, text="Logística")
     
     product_label.grid(row=0, column=0)
     cost_label.grid(row=1, column=0)
-    ammount_label.grid(row=2, column=0)
-    commission_label.grid(row=3, column=0)
+    technical_cost_label.grid(row=2, column=0)
+    logystics_cost_label.grid(row=3, column=0)
     
     # Inputs
     product_entry = ttk.Combobox(query_frame, width=27, values=LISTA_ARTICULOS) 
     cost_entry = ttk.Entry(query_frame, width=30)
-    ammount_entry = ttk.Entry(query_frame, width=30)
-    commission_entry = ttk.Entry(query_frame, width=30)
+    technical_cost_entry = ttk.Entry(query_frame, width=30)
+    logystics_cost_entry = ttk.Entry(query_frame, width=30)
     calculate_button = ttk.Button(query_frame, text="Calcular", command=calculate)
     
     product_entry.grid(row=0, column=1)
     cost_entry.grid(row=1, column=1)
-    ammount_entry.grid(row=2, column=1)
-    commission_entry.grid(row=3, column=1)
+    technical_cost_entry.grid(row=2, column=1)
+    logystics_cost_entry.grid(row=3, column=1)
     calculate_button.grid(row=4, column=0, columnspan=2)
     
     # update cost input when choosing a product from combobox
@@ -65,9 +72,6 @@ def main():
         update_cost(None)
     
     product_entry.bind("<<ComboboxSelected>>", update_cost)
-    
-    if DEFAULT_COMMISSION:
-        commission_entry.insert(0, f"{DEFAULT_COMMISSION}")
     
     for widget in query_frame.winfo_children():
         widget.grid_configure(padx=5, pady=10)
