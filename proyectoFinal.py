@@ -16,7 +16,7 @@ def main():
         cost = int(float(cost_entry.get()))
         technical_cost = int(float(technical_cost_entry.get()))
         logystics = float(logystics_cost_entry.get())
-        seller_commission = cost * DEFAULT_VALUES["DEFAULT_COMMISSION"]
+        seller_commission = cost * DEFAULT_VALUES["SELLER_COMMISSION"]
         owner_commission = cost * DEFAULT_VALUES["OWNER_COMMISSION"]
         
         cost_before_taxes = cost + technical_cost + logystics
@@ -25,7 +25,9 @@ def main():
         ideal_price = total_cost * 1.2
         
         if ideal_price*DEFAULT_VALUES["RENTABILITY"] < total_cost:
-            ideal_price = total_cost * 2
+            ideal_price = total_cost * 1.6463 
+
+        result_entry.insert(0, ideal_price)
         
         print(f"Precio de venta mínimo sugerido: {ideal_price:,.2f}\n")
                 
@@ -45,11 +47,14 @@ def main():
     cost_label = tk.Label(query_frame, text="Costo del producto")
     technical_cost_label = tk.Label(query_frame, text="Costo del técnico instrumentador")
     logystics_cost_label = tk.Label(query_frame, text="Logística")
+    result_label = tk.Label(query_frame, text="Resultado")
+    
     
     product_label.grid(row=0, column=0)
     cost_label.grid(row=1, column=0)
     technical_cost_label.grid(row=2, column=0)
     logystics_cost_label.grid(row=3, column=0)
+    result_label.grid(row=5, column=0,)
     
     # Inputs
     product_entry = ttk.Combobox(query_frame, width=27, values=LISTA_ARTICULOS) 
@@ -57,12 +62,14 @@ def main():
     technical_cost_entry = ttk.Entry(query_frame, width=30)
     logystics_cost_entry = ttk.Entry(query_frame, width=30)
     calculate_button = ttk.Button(query_frame, text="Calcular", command=calculate)
+    result_entry = ttk.Entry(query_frame, width=30)
     
     product_entry.grid(row=0, column=1)
     cost_entry.grid(row=1, column=1)
     technical_cost_entry.grid(row=2, column=1)
     logystics_cost_entry.grid(row=3, column=1)
     calculate_button.grid(row=4, column=0, columnspan=2)
+    result_entry.grid(row=5, column=1, columnspan=2, )
     
     # update cost input when choosing a product from combobox
     
@@ -72,6 +79,7 @@ def main():
         update_cost(None)
     
     product_entry.bind("<<ComboboxSelected>>", update_cost)
+    calculate_button.bind("<Button-1>", calculate)
     
     for widget in query_frame.winfo_children():
         widget.grid_configure(padx=5, pady=10)
