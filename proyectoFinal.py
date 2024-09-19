@@ -3,8 +3,8 @@ from tkinter import ttk
 from consts import *
 
 def main():
-    total = 0
-    seller_commission = 0
+    commision_calc = lambda cost, percent: cost * percent
+    
     
     def update_cost(event):
         product = product_entry.get()
@@ -16,8 +16,8 @@ def main():
         cost = int(float(cost_entry.get()))
         technical_cost = int(float(technical_cost_entry.get()))
         logystics = float(logystics_cost_entry.get())
-        seller_commission = cost * DEFAULT_VALUES[0][1]
-        owner_commission = cost * DEFAULT_VALUES[1][1]
+        seller_commission = commision_calc(cost, DEFAULT_VALUES[0][1])
+        owner_commission = commision_calc(cost, DEFAULT_VALUES[1][1])
         
         cost_before_taxes = cost + technical_cost + logystics
         total_cost = cost_before_taxes + seller_commission + owner_commission + (cost_before_taxes * DEFAULT_VALUES[2][1]) + (cost_before_taxes * DEFAULT_VALUES[3][1]) + (cost_before_taxes * DEFAULT_VALUES[4][1])
