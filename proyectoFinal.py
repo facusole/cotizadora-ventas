@@ -16,15 +16,15 @@ def main():
         cost = int(float(cost_entry.get()))
         technical_cost = int(float(technical_cost_entry.get()))
         logystics = float(logystics_cost_entry.get())
-        seller_commission = cost * DEFAULT_VALUES["DEFAULT_COMMISSION"]
-        owner_commission = cost * DEFAULT_VALUES["OWNER_COMMISSION"]
+        seller_commission = cost * DEFAULT_VALUES[0][1]
+        owner_commission = cost * DEFAULT_VALUES[1][1]
         
         cost_before_taxes = cost + technical_cost + logystics
-        total_cost = cost_before_taxes + seller_commission + owner_commission + (cost_before_taxes * DEFAULT_VALUES["TAXES"]) + (cost_before_taxes * DEFAULT_VALUES["RENTABILITY"]) + (cost_before_taxes * DEFAULT_VALUES["STRUCTURE"])
+        total_cost = cost_before_taxes + seller_commission + owner_commission + (cost_before_taxes * DEFAULT_VALUES[2][1]) + (cost_before_taxes * DEFAULT_VALUES[3][1]) + (cost_before_taxes * DEFAULT_VALUES[4][1])
         
         ideal_price = total_cost * 1.2
         
-        if ideal_price*DEFAULT_VALUES["RENTABILITY"] < total_cost:
+        if ideal_price*DEFAULT_VALUES[3][1] < total_cost:
             ideal_price = total_cost * 2
         
         print(f"Precio de venta mínimo sugerido: {ideal_price:,.2f}\n")
@@ -72,6 +72,7 @@ def main():
         update_cost(None)
     
     product_entry.bind("<<ComboboxSelected>>", update_cost)
+    calculate_button.bind("<Button-1>", calculate)
     
     for widget in query_frame.winfo_children():
         widget.grid_configure(padx=5, pady=10)
