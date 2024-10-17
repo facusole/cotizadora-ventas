@@ -32,6 +32,7 @@ def create_login_window():
 
     login_window = tk.Tk()
     login_window.title("Inicio de Sesión")
+    login_window.geometry("400x300")
 
     tk.Label(login_window, text="Usuario:").pack(pady=5)
     username_entry = tk.Entry(login_window)
