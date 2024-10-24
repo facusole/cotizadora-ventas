@@ -53,6 +53,12 @@ ARTICULOS = {
     "RTR CDH REVISION": 1056302.00,
     "RTR AK": 1654137.00
 }
+
+USUARIOS = {
+    "Joan": "1234",
+    "Facundo": "1234"
+
+}
 # DEFAULT_VALUES = {
 #     "SELLER_COMMISSION": 0.025,
 #     "OWNER_COMMISSION": 0.01,
