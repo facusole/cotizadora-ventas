@@ -8,7 +8,10 @@ def log(text):
 
 # Verificar credenciales
 def verify_credentials(username, password):
-    # Aquí puedes definir tus credenciales. En un caso real, esto debería ser más seguro.
+    # Convertir a minúsculas lo que el usuario ingrese para la comparacion
+    username = username.lower()
+    password = password.lower()
+
     if USUARIOS.get(username) == None:
         return False
     if USUARIOS.get(username) == password:
@@ -146,4 +149,5 @@ def main():
  
 if __name__ == '__main__':
     create_login_window()
+
     

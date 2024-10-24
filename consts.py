@@ -55,10 +55,10 @@ ARTICULOS = {
 }
 
 USUARIOS = {
-    "Joan": "1234",
-    "Facundo": "1234",
-    "Madary": "1234",
-    "Ariel": "1234",
+    "joan": "1234",
+    "facundo": "1234",
+    "madary": "1234",
+    "ariel": "1234",
 }
 # DEFAULT_VALUES = {
 #     "SELLER_COMMISSION": 0.025,
