@@ -54,7 +54,15 @@ def create_login_window():
 
 def main():
     commision_calc = lambda cost, percent: cost * percent
-   
+    filtered_clients = list(filter(lambda client: client[1] == 0.21, CLIENTS))
+    
+    def filter_clients():
+        if tax_exempt_var.get():
+            filtered_clients = list(filter(lambda client: client[1] == 0, CLIENTS))
+        else:
+            filtered_clients = list(filter(lambda client: client[1] == 0.21, CLIENTS)) 
+        tax_exempt_entry['values'] = [client[0] for client in filtered_clients]    
+        
    
     def update_cost(event=None):
         product = product_entry.get()
@@ -104,6 +112,7 @@ def main():
    
     # Labels
     product_label = tk.Label(query_frame, text="Producto")
+    tax_exempt_entry = tk.Label(query_frame, text="Clientes")
     cost_label = tk.Label(query_frame, text="Costo del producto")
     technical_cost_label = tk.Label(query_frame, text="Costo del técnico instrumentador")
     logystics_cost_label = tk.Label(query_frame, text="Logística")
@@ -111,26 +120,34 @@ def main():
    
    
     product_label.grid(row=0, column=0)
-    cost_label.grid(row=1, column=0)
-    technical_cost_label.grid(row=2, column=0)
-    logystics_cost_label.grid(row=3, column=0)
-    result_label.grid(row=5, column=0,)
+    tax_exempt_entry.grid(row=1, column=0)
+    cost_label.grid(row=2, column=0)
+    technical_cost_label.grid(row=3, column=0)
+    logystics_cost_label.grid(row=4, column=0)
+    result_label.grid(row=6, column=0,)
    
     # Inputs
+    tax_exempt_var = tk.BooleanVar() # Booleano para el checkbox
+    
+    
     product_entry = ttk.Combobox(query_frame, width=27, values=LISTA_ARTICULOS)
     cost_entry = ttk.Entry(query_frame, width=30)
     technical_cost_entry = ttk.Entry(query_frame, width=30)
     logystics_cost_entry = ttk.Entry(query_frame, width=30)
     calculate_button = ttk.Button(query_frame, text="Calcular", command=calculate)
     result_entry = ttk.Entry(query_frame, width=30)
+    tax_exempt_entry = ttk.Combobox(query_frame, width=27, values=[client[0] for client in filtered_clients])
+    tax_exempt_check = tk.Checkbutton(query_frame, variable=tax_exempt_var, text='Exentos IVA', onvalue=1, offvalue=0, command=filter_clients)
    
     product_entry.grid(row=0, column=1)
-    cost_entry.grid(row=1, column=1)
-    technical_cost_entry.grid(row=2, column=1)
-    logystics_cost_entry.grid(row=3, column=1)
-    calculate_button.grid(row=4, column=0, columnspan=2)
-    result_entry.grid(row=5, column=1, columnspan=2, )
-   
+    tax_exempt_entry.grid(row=1, column=1)
+    tax_exempt_check.grid(row=1, column=2)
+    cost_entry.grid(row=2, column=1)
+    technical_cost_entry.grid(row=3, column=1)
+    logystics_cost_entry.grid(row=4, column=1)
+    calculate_button.grid(row=5, column=0, columnspan=2)
+    result_entry.grid(row=6, column=1, columnspan=2, )
+       
     # update cost input when choosing a product from combobox
    
     default_product = LISTA_ARTICULOS[0] if LISTA_ARTICULOS else None
