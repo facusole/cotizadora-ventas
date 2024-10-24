@@ -1,7 +1,54 @@
 import tkinter as tk
 from tkinter import ttk
 from consts import *
- 
+
+# Log de usuario
+def log(text):
+    print(text)
+
+# Verificar credenciales
+def verify_credentials(username, password):
+    # Aquí puedes definir tus credenciales. En un caso real, esto debería ser más seguro.
+    if USUARIOS.get(username) == None:
+        return False
+    if USUARIOS.get(username) == password:
+        return True
+
+
+def login():
+    username = username_entry.get()
+    password = password_entry.get()
+    
+    if verify_credentials(username, password):
+        log("Inicio de sesión exitoso.")
+        login_window.destroy()  # Cierra la ventana de inicio de sesión
+        main()  # Llama a la función principal
+    else:
+        log("Credenciales incorrectas.")
+        error_label.config(text="Credenciales incorrectas. Intenta de nuevo.")
+
+def create_login_window():
+    global username_entry, password_entry, error_label, login_window
+
+    login_window = tk.Tk()
+    login_window.title("Inicio de Sesión")
+    login_window.geometry("400x300")
+
+    tk.Label(login_window, text="Usuario:").pack(pady=5)
+    username_entry = tk.Entry(login_window)
+    username_entry.pack(pady=5)
+
+    tk.Label(login_window, text="Contraseña:").pack(pady=5)
+    password_entry = tk.Entry(login_window, show="*")
+    password_entry.pack(pady=5)
+
+    tk.Button(login_window, text="Iniciar Sesión", command=login).pack(pady=20)
+
+    error_label = tk.Label(login_window, text="", fg="red")
+    error_label.pack(pady=5)
+
+    login_window.mainloop()
+
 def main():
     commision_calc = lambda cost, percent: cost * percent
    
@@ -98,4 +145,5 @@ def main():
  
  
 if __name__ == '__main__':
-    main()
+    create_login_window()
+    
