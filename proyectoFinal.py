@@ -53,31 +53,40 @@ def main():
     commision_calc = lambda cost, percent: cost * percent
    
    
-    def update_cost(event):
+    def update_cost(event=None):
         product = product_entry.get()
         cost = ARTICULOS.get(product, 0.0)
         cost_entry.delete(0, tk.END)
         cost_entry.insert(0, f"{cost}")
    
-    def calculate():
-        cost = int(float(cost_entry.get()))
-        technical_cost = int(float(technical_cost_entry.get()))
-        logystics = float(logystics_cost_entry.get())
-        seller_commission = commision_calc(cost, DEFAULT_VALUES[0][1])
-        owner_commission = commision_calc(cost, DEFAULT_VALUES[1][1])
-       
-        cost_before_taxes = cost + technical_cost + logystics
-        total_cost = cost_before_taxes + seller_commission + owner_commission + (cost_before_taxes * DEFAULT_VALUES[2][1]) + (cost_before_taxes * DEFAULT_VALUES[3][1]) + (cost_before_taxes * DEFAULT_VALUES[4][1])
-       
-        ideal_price = total_cost * 1.2
-       
-        if ideal_price*DEFAULT_VALUES[3][1] < total_cost:
-            ideal_price = total_cost * 1.6463
-   
-        result_entry.delete(0, tk.END)
-        result_entry.insert(0, f"{ideal_price:,.2f}")
-       
-        print(f"Precio de venta mínimo sugerido: {ideal_price:,.2f}\n")
+    def calculate(event=None):
+        try:
+            cost = int(float(cost_entry.get()))
+            technical_cost = int(float(technical_cost_entry.get()))
+            logystics = float(logystics_cost_entry.get())
+            seller_commission = commision_calc(cost, DEFAULT_VALUES[0][1])
+            owner_commission = commision_calc(cost, DEFAULT_VALUES[1][1])
+        
+            cost_before_taxes = cost + technical_cost + logystics
+            total_cost = cost_before_taxes + seller_commission + owner_commission + (cost_before_taxes * DEFAULT_VALUES[2][1]) + (cost_before_taxes * DEFAULT_VALUES[3][1]) + (cost_before_taxes * DEFAULT_VALUES[4][1])
+        
+            ideal_price = total_cost * 1.2
+        
+            if ideal_price*DEFAULT_VALUES[3][1] < total_cost:
+                ideal_price = total_cost * 1.6463
+    
+            result_entry.delete(0, tk.END)
+            result_entry.insert(0, f"{ideal_price:,.2f}")
+        
+            print(f"Precio de venta mínimo sugerido: {ideal_price:,.2f}\n")
+        except ValueError:
+            print(f"Error: valor inválido {ValueError}")
+            result_entry.delete(0, tk.END)
+            result_entry.insert(0, "Error: valor inválido")
+        except Exception:
+            print(f"Error: {Exception}")
+            result_entry.delete(0, tk.END)
+            result_entry.insert(0, "Error: cálculo fallido")
                
        
     window = tk.Tk()
