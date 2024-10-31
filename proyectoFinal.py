@@ -53,6 +53,27 @@ def create_login_window():
     login_window.mainloop()
 
 def main():
+    def upload_clients():
+        LISTA_CLIENTES = []
+
+        clientes = open("archivos/clientes.csv", "r", encoding="utf-8")
+        lineas = clientes.read()
+        renglones = lineas.split("\n")
+        for renglon in renglones:
+            cliente = renglon.split(",")
+            LISTA_CLIENTES.append(cliente)
+        clientes.close()
+        for cliente in LISTA_CLIENTES:
+            cliente[1] = float(cliente[1])
+        return LISTA_CLIENTES
+    
+    CLIENTS = upload_clients()
+
+    commision_calc = lambda cost, percent: cost * percent
+    filtered_clients = list(filter(lambda client: client[1] == 0.21, CLIENTS))
+
+    
+    
     commision_calc = lambda cost, percent: cost * percent
     filtered_clients = list(filter(lambda client: client[1] == 0.21, CLIENTS))
     
