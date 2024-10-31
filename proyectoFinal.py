@@ -88,8 +88,16 @@ def main():
     
             result_entry.delete(0, tk.END)
             result_entry.insert(0, f"{ideal_price:,.2f}")
+
+            price_with_IVA= ideal_price*(1+float(iva_entry.get()))
+            Resul_iva_entry.delete(0, tk.END)
+            Resul_iva_entry.insert(0, f"{price_with_IVA:,.2f}")
+            
+
         
             print(f"Precio de venta mínimo sugerido: {ideal_price:,.2f}\n")
+
+            
         except ValueError:
             print(f"Error: valor inválido {ValueError}")
             result_entry.delete(0, tk.END)
@@ -98,7 +106,16 @@ def main():
             print(f"Error: {Exception}")
             result_entry.delete(0, tk.END)
             result_entry.insert(0, "Error: cálculo fallido")
-               
+
+
+    def update_iva(event=None):
+        client = tax_exempt_entry.get()
+        tax_exempt_entry.delete(0, tk.END)
+        tax_exempt_entry.insert(0, f"{client}")
+        iva_entry.insert(0, f"{list(filter(lambda cl: cl[0] == client, CLIENTS))[0][1]}")
+
+
+
        
     window = tk.Tk()
     window.title("Cotizadora de ventas")
@@ -117,7 +134,8 @@ def main():
     technical_cost_label = tk.Label(query_frame, text="Costo del técnico instrumentador")
     logystics_cost_label = tk.Label(query_frame, text="Logística")
     result_label = tk.Label(query_frame, text="Precio mínimo de venta ideal")
-   
+    iva_label = tk.Label(query_frame, text="IVA")
+    Resul_iva=tk.Label(query_frame, text="Resultado IVA")
    
     product_label.grid(row=0, column=0)
     tax_exempt_entry.grid(row=1, column=0)
@@ -125,6 +143,8 @@ def main():
     technical_cost_label.grid(row=3, column=0)
     logystics_cost_label.grid(row=4, column=0)
     result_label.grid(row=6, column=0,)
+    iva_label.grid(row=7, column=0)
+    Resul_iva.grid(row=8, column=0)
    
     # Inputs
     tax_exempt_var = tk.BooleanVar() # Booleano para el checkbox
@@ -138,6 +158,8 @@ def main():
     result_entry = ttk.Entry(query_frame, width=30)
     tax_exempt_entry = ttk.Combobox(query_frame, width=27, values=[client[0] for client in filtered_clients])
     tax_exempt_check = tk.Checkbutton(query_frame, variable=tax_exempt_var, text='Exentos IVA', onvalue=1, offvalue=0, command=filter_clients)
+    iva_entry = ttk.Entry(query_frame, width=30)
+    Resul_iva_entry = ttk.Entry(query_frame, width=30)
    
     product_entry.grid(row=0, column=1)
     tax_exempt_entry.grid(row=1, column=1)
@@ -147,6 +169,8 @@ def main():
     logystics_cost_entry.grid(row=4, column=1)
     calculate_button.grid(row=5, column=0, columnspan=2)
     result_entry.grid(row=6, column=1, columnspan=2, )
+    iva_entry.grid(row=7, column=1)
+    Resul_iva_entry.grid(row=8, column=1)
        
     # update cost input when choosing a product from combobox
    
@@ -157,6 +181,8 @@ def main():
    
     product_entry.bind("<<ComboboxSelected>>", update_cost)
     calculate_button.bind("<Button-1>", calculate)
+
+    tax_exempt_entry.bind("<<ComboboxSelected>>", update_iva)
    
     for widget in query_frame.winfo_children():
         widget.grid_configure(padx=5, pady=10)
