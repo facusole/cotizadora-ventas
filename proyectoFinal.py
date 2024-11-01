@@ -1,3 +1,4 @@
+
 import tkinter as tk
 from tkinter import ttk
 from consts import *
@@ -30,22 +31,29 @@ def login():
         log("Credenciales incorrectas.")
         error_label.config(text="Credenciales incorrectas. Intenta de nuevo.")
 
+# Registro de nuevos usuarios
 def register():
-    username = reg_username_entry.get()
-    password = reg_password_entry.get()
+    global USUARIOS
+
+    # Convierte a minúsculas
+    username = reg_username_entry.get().lower()  
+    password = reg_password_entry.get().lower()  
 
     # Verifica si el usuario ya existe
-    if USUARIOS.get(username) is not None:
+    if username in USUARIOS:
         log("El usuario ya existe.")
         reg_error_label.config(text="El usuario ya existe. Elige otro nombre.")
         return
-
+    
     # Agrega el nuevo usuario
     USUARIOS[username] = password
     log("Registro exitoso.")
     reg_error_label.config(text="Registro exitoso. Puedes iniciar sesión ahora.")
     reg_username_entry.delete(0, tk.END)
     reg_password_entry.delete(0, tk.END)
+
+    # Ceierra la ventana de registro
+    registration_window.destroy()
 
 def create_registration_window():
     global reg_username_entry, reg_password_entry, reg_error_label, registration_window
