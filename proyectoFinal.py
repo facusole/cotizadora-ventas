@@ -1,3 +1,4 @@
+
 import tkinter as tk
 from tkinter import ttk
 from consts import *
@@ -30,22 +31,29 @@ def login():
         log("Credenciales incorrectas.")
         error_label.config(text="Credenciales incorrectas. Intenta de nuevo.")
 
+# Registro de nuevos usuarios
 def register():
-    username = reg_username_entry.get()
-    password = reg_password_entry.get()
+    global USUARIOS
+
+    # Convierte a minúsculas
+    username = reg_username_entry.get().lower()  
+    password = reg_password_entry.get().lower()  
 
     # Verifica si el usuario ya existe
-    if USUARIOS.get(username) is not None:
+    if username in USUARIOS:
         log("El usuario ya existe.")
         reg_error_label.config(text="El usuario ya existe. Elige otro nombre.")
         return
-
+    
     # Agrega el nuevo usuario
     USUARIOS[username] = password
     log("Registro exitoso.")
     reg_error_label.config(text="Registro exitoso. Puedes iniciar sesión ahora.")
     reg_username_entry.delete(0, tk.END)
     reg_password_entry.delete(0, tk.END)
+
+    # Ceierra la ventana de registro
+    registration_window.destroy()
 
 def create_registration_window():
     global reg_username_entry, reg_password_entry, reg_error_label, registration_window
@@ -93,6 +101,27 @@ def create_login_window():
     login_window.mainloop()
 
 def main():
+    def upload_clients():
+        LISTA_CLIENTES = []
+
+        clientes = open("archivos/clientes.csv", "r", encoding="utf-8")
+        lineas = clientes.read()
+        renglones = lineas.split("\n")
+        for renglon in renglones:
+            cliente = renglon.split(",")
+            LISTA_CLIENTES.append(cliente)
+        clientes.close()
+        for cliente in LISTA_CLIENTES:
+            cliente[1] = float(cliente[1])
+        return LISTA_CLIENTES
+    
+    CLIENTS = upload_clients()
+
+    commision_calc = lambda cost, percent: cost * percent
+    filtered_clients = list(filter(lambda client: client[1] == 0.21, CLIENTS))
+
+    
+    
     commision_calc = lambda cost, percent: cost * percent
     filtered_clients = list(filter(lambda client: client[1] == 0.21, CLIENTS))
     
