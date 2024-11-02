@@ -156,7 +156,7 @@ def main():
     logystics_cost_label = tk.Label(query_frame, text="Logística")
     result_label = tk.Label(query_frame, text="Precio mínimo de venta ideal")
     iva_label = tk.Label(query_frame, text="IVA")
-    Resul_iva=tk.Label(query_frame, text="Resultado IVA")
+    Resul_iva=tk.Label(query_frame, text="Precio ideal con IVA")
    
     product_label.grid(row=0, column=0)
     tax_exempt_entry.grid(row=1, column=0)
@@ -169,7 +169,6 @@ def main():
    
     # Inputs
     tax_exempt_var = tk.BooleanVar() # Booleano para el checkbox
-    
     
     product_entry = ttk.Combobox(query_frame, width=27, values=LISTA_ARTICULOS)
     cost_entry = ttk.Entry(query_frame, width=30)
@@ -188,8 +187,8 @@ def main():
     cost_entry.grid(row=2, column=1)
     technical_cost_entry.grid(row=3, column=1)
     logystics_cost_entry.grid(row=4, column=1)
-    calculate_button.grid(row=5, column=0, columnspan=2)
-    result_entry.grid(row=6, column=1, columnspan=2, )
+    calculate_button.grid(row=5, column=0, columnspan=3)
+    result_entry.grid(row=6, column=1)
     iva_entry.grid(row=7, column=1)
     Resul_iva_entry.grid(row=8, column=1)
        

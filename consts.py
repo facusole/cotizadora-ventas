@@ -55,6 +55,7 @@ ARTICULOS = {
 }
 
 USUARIOS = {
+    "admin": "1234",
     "joan": "1234",
     "facundo": "1234",
     "madary": "1234",
