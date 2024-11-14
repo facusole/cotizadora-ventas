@@ -6,7 +6,7 @@ from tkinter import ttk
 from consts import *
 
 # Ruta del archivo JSON donde se guardarán los usuarios
-USERS_FILE = "usuarios.json"
+USERS_FILE = "archivos/usuarios.json"
 
 # Función para cargar usuarios desde el archivo JSON
 def load_users():
