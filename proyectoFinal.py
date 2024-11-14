@@ -1,7 +1,28 @@
 
 import tkinter as tk
+import json
+import os
 from tkinter import ttk
 from consts import *
+
+# Ruta del archivo JSON donde se guardarán los usuarios
+USERS_FILE = "usuarios.json"
+
+# Función para cargar usuarios desde el archivo JSON
+def load_users():
+    if os.path.exists(USERS_FILE):
+        with open(USERS_FILE, "r") as file:
+            return json.load(file)
+    else:
+        return {}
+
+# Función para guardar usuarios en el archivo JSON
+def save_users():
+    with open(USERS_FILE, "w") as file:
+        json.dump(USUARIOS, file, indent=4)
+
+# Cargar usuarios desde el archivo JSON ..........
+USUARIOS = load_users()
 
 # Log de usuario
 def log(text):
@@ -51,6 +72,9 @@ def register():
     reg_error_label.config(text="Registro exitoso. Puedes iniciar sesión ahora.")
     reg_username_entry.delete(0, tk.END)
     reg_password_entry.delete(0, tk.END)
+
+    # Guarda los usuarios en el archivo JSON
+    save_users()
 
     # Ceierra la ventana de registro
     registration_window.destroy()
