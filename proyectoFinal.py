@@ -1,3 +1,4 @@
+
 import tkinter as tk
 from tkinter import ttk
 from consts import *
@@ -30,6 +31,50 @@ def login():
         log("Credenciales incorrectas.")
         error_label.config(text="Credenciales incorrectas. Intenta de nuevo.")
 
+# Registro de nuevos usuarios
+def register():
+    global USUARIOS
+
+    # Convierte a minúsculas
+    username = reg_username_entry.get().lower()  
+    password = reg_password_entry.get().lower()  
+
+    # Verifica si el usuario ya existe
+    if username in USUARIOS:
+        log("El usuario ya existe.")
+        reg_error_label.config(text="El usuario ya existe. Elige otro nombre.")
+        return
+    
+    # Agrega el nuevo usuario
+    USUARIOS[username] = password
+    log("Registro exitoso.")
+    reg_error_label.config(text="Registro exitoso. Puedes iniciar sesión ahora.")
+    reg_username_entry.delete(0, tk.END)
+    reg_password_entry.delete(0, tk.END)
+
+    # Ceierra la ventana de registro
+    registration_window.destroy()
+
+def create_registration_window():
+    global reg_username_entry, reg_password_entry, reg_error_label, registration_window
+
+    registration_window = tk.Toplevel(login_window)  # Crea una ventana secundaria
+    registration_window.title("Registro de Usuario")
+    registration_window.geometry("400x300")
+
+    tk.Label(registration_window, text="Nombre de Usuario:").pack(pady=5)
+    reg_username_entry = tk.Entry(registration_window)
+    reg_username_entry.pack(pady=5)
+
+    tk.Label(registration_window, text="Contraseña:").pack(pady=5)
+    reg_password_entry = tk.Entry(registration_window, show="*")
+    reg_password_entry.pack(pady=5)
+
+    tk.Button(registration_window, text="Registrar", command=register).pack(pady=20)
+
+    reg_error_label = tk.Label(registration_window, text="", fg="red")
+    reg_error_label.pack(pady=5)
+
 def create_login_window():
     global username_entry, password_entry, error_label, login_window
 
@@ -46,6 +91,9 @@ def create_login_window():
     password_entry.pack(pady=5)
 
     tk.Button(login_window, text="Iniciar Sesión", command=login).pack(pady=20)
+
+    # Botón para abrir la ventana de registro :)
+    tk.Button(login_window, text="Registrar Nuevo Usuario", command=create_registration_window).pack(pady=5)
 
     error_label = tk.Label(login_window, text="", fg="red")
     error_label.pack(pady=5)
@@ -156,7 +204,7 @@ def main():
     logystics_cost_label = tk.Label(query_frame, text="Logística")
     result_label = tk.Label(query_frame, text="Precio mínimo de venta ideal")
     iva_label = tk.Label(query_frame, text="IVA")
-    Resul_iva=tk.Label(query_frame, text="Resultado IVA")
+    Resul_iva=tk.Label(query_frame, text="Precio ideal con IVA")
    
     product_label.grid(row=0, column=0)
     tax_exempt_entry.grid(row=1, column=0)
@@ -169,7 +217,6 @@ def main():
    
     # Inputs
     tax_exempt_var = tk.BooleanVar() # Booleano para el checkbox
-    
     
     product_entry = ttk.Combobox(query_frame, width=27, values=LISTA_ARTICULOS)
     cost_entry = ttk.Entry(query_frame, width=30)
@@ -188,8 +235,8 @@ def main():
     cost_entry.grid(row=2, column=1)
     technical_cost_entry.grid(row=3, column=1)
     logystics_cost_entry.grid(row=4, column=1)
-    calculate_button.grid(row=5, column=0, columnspan=2)
-    result_entry.grid(row=6, column=1, columnspan=2, )
+    calculate_button.grid(row=5, column=0, columnspan=3)
+    result_entry.grid(row=6, column=1)
     iva_entry.grid(row=7, column=1)
     Resul_iva_entry.grid(row=8, column=1)
        
