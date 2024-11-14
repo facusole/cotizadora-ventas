@@ -127,17 +127,20 @@ def create_login_window():
 def main():
     def upload_clients():
         LISTA_CLIENTES = []
-
-        clientes = open("archivos/clientes.csv", "r", encoding="utf-8")
-        lineas = clientes.read()
-        renglones = lineas.split("\n")
-        for renglon in renglones:
-            cliente = renglon.split(",")
-            LISTA_CLIENTES.append(cliente)
-        clientes.close()
-        for cliente in LISTA_CLIENTES:
-            cliente[1] = float(cliente[1])
-        return LISTA_CLIENTES
+        try:
+            clientes = open("archivos/clientes.csv", "r")
+            lineas = clientes.read()
+            renglones = lineas.split("\n")
+            for renglon in renglones:
+                cliente = renglon.split(",")
+                LISTA_CLIENTES.append(cliente)
+            clientes.close()
+            for cliente in LISTA_CLIENTES:
+                cliente[1] = float(cliente[1])
+            return LISTA_CLIENTES
+        except FileNotFoundError:
+            log("Archivo clientes.csv no encontrado. Por favor, sube el archivo a la carpeta archivos.")
+            return []
     
     CLIENTS = upload_clients()
 
