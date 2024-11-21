@@ -8,9 +8,9 @@ from consts import *
 USERS_FILE = "archivos/usuarios.json"
 
 # Función para cargar usuarios desde el archivo JSON
-def load_users():
+def load_users(file_path=USERS_FILE):
     try:
-        with open(USERS_FILE, "r") as file:
+        with open(file_path, "r") as file:
             return json.load(file) 
     except FileNotFoundError:
         log("El archivo de usuarios no existe. Se devolverá un diccionario vacío.")
@@ -26,10 +26,10 @@ def load_users():
         return {}
 
 # Función para guardar usuarios en el archivo JSON
-def save_users():
+def save_users(usuarios, file_path=USERS_FILE):
     try:
-        with open(USERS_FILE, "w") as file:
-            json.dump(USUARIOS, file, indent=4)
+        with open(file_path, "w") as file:
+            json.dump(usuarios, file, indent=4)
     except FileNotFoundError:
         log("No se pudo guardar los usuarios en el archivo JSON. Por favor, asegúrate de que la carpeta archivos exista y tenga permisos de escritura.")
     except PermissionError:
@@ -45,14 +45,17 @@ def log(text):
     print(text)
 
 # Verificar credenciales
-def verify_credentials(username, password):
+def verify_credentials(username, password, file_path=USERS_FILE):
+    users = load_users(file_path)
     # Convertir a minúsculas lo que el usuario ingrese para la comparacion
     username = username.lower()
     password = password.lower()
 
-    if USUARIOS.get(username) == None:
+    if users.get(username) == None:
         return False
-    if USUARIOS.get(username) == password:
+    if users.get(username) != password:
+        return False
+    if users.get(username) == password:
         return True
 
 
