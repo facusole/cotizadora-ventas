@@ -1,6 +1,5 @@
 import pytest
 import os
-import json
 from proyectoFinal import verify_credentials, save_users, load_users
 
 # Ruta temporal para pruebas

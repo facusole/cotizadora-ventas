@@ -29,6 +29,19 @@ Este proyecto es una aplicación de escritorio creada con Python y Tkinter, dise
 4. **Interfaz gráfica:**
    - Una interfaz intuitiva con ventanas para iniciar sesión, registrar usuarios y calcular precios.
 
+## Usuarios predeterminados
+
+Los usuarios predeterminados son los siguientes:
+
+| Nombre de usuario | Contraseña |
+| ----------------- | ---------- |
+| admin             | 1234       |
+| joan              | 1234       |
+| facundo           | 1234       |
+| madary            | 1234       |
+| ariel             | 1234       |
+| vendedor          | 1234       |
+
 ## Requisitos
 
 - **Python 3.8 o superior**
@@ -49,3 +62,13 @@ Este proyecto es una aplicación de escritorio creada con Python y Tkinter, dise
 4. Crea un archivo vacío llamado `usuarios.json` dentro de la carpeta `archivos`:
    ```json
    {}
+
+## Pruebas
+
+Para ejecutar las pruebas, ejecuta el archivo `test_app.py` con pytest en la terminal, hay que estar en el directorio raíz del proyecto.
+
+```bash
+pytest test_app.py
+```
+
+Si todo va bien, deberías ver un mensaje indicando que todas las pruebas se ejecutaron correctamente.
