@@ -2,6 +2,11 @@
 
 Este proyecto es una aplicación de escritorio creada con Python y Tkinter, diseñada para gestionar usuarios y calcular precios ideales de productos considerando distintos costos y tasas de impuestos.
 
+## Integrantes
+- Facundo Solé
+- Joan Scabino Vosa
+- Madary Fernandez
+
 ## Características
 
 1. **Inicio de sesión y registro de usuarios:**
