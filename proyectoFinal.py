@@ -1,7 +1,6 @@
 
 import tkinter as tk
 import json
-import os
 from tkinter import ttk
 from consts import *
 
@@ -10,16 +9,33 @@ USERS_FILE = "archivos/usuarios.json"
 
 # Función para cargar usuarios desde el archivo JSON
 def load_users():
-    if os.path.exists(USERS_FILE):
+    try:
         with open(USERS_FILE, "r") as file:
-            return json.load(file)
-    else:
+            return json.load(file) 
+    except FileNotFoundError:
+        log("El archivo de usuarios no existe. Se devolverá un diccionario vacío.")
+        return {}
+    except PermissionError:
+        log("No se pudo cargar los usuarios del archivo JSON. Por favor, asegúrate de que la carpeta archivos tenga permisos de lectura.")
+        return {}
+    except json.JSONDecodeError as e:
+        log(f"Error al cargar los usuarios del archivo JSON: {e}")
+        return {}
+    except Exception as e:
+        log(f"Error inesperado al cargar los usuarios: {e}")
         return {}
 
 # Función para guardar usuarios en el archivo JSON
 def save_users():
-    with open(USERS_FILE, "w") as file:
-        json.dump(USUARIOS, file, indent=4)
+    try:
+        with open(USERS_FILE, "w") as file:
+            json.dump(USUARIOS, file, indent=4)
+    except FileNotFoundError:
+        log("No se pudo guardar los usuarios en el archivo JSON. Por favor, asegúrate de que la carpeta archivos exista y tenga permisos de escritura.")
+    except PermissionError:
+        log("No se pudo guardar los usuarios en el archivo JSON. Por favor, asegúrate de que la carpeta archivos tenga permisos de escritura.")
+    except Exception as e:
+        log(f"Error al guardar los usuarios en el archivo JSON: {e}")
 
 # Cargar usuarios desde el archivo JSON ..........
 USUARIOS = load_users()
