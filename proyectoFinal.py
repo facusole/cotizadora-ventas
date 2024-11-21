@@ -117,7 +117,7 @@ def create_login_window():
     tk.Button(login_window, text="Iniciar Sesión", command=login).pack(pady=20)
 
     # Botón para abrir la ventana de registro :)
-    # tk.Button(login_window, text="Registrar Nuevo Usuario", command=create_registration_window).pack(pady=5)
+    tk.Button(login_window, text="Registrar Nuevo Usuario", command=create_registration_window).pack(pady=5)
 
     error_label = tk.Label(login_window, text="", fg="red")
     error_label.pack(pady=5)
