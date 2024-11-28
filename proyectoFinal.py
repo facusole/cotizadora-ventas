@@ -1,8 +1,10 @@
-
 import tkinter as tk
 import json
+import os
 from tkinter import ttk
 from consts import *
+import datetime
+from pdfExport import exportToPDF
 
 # Ruta del archivo JSON donde se guardarán los usuarios
 USERS_FILE = "archivos/usuarios.json"
@@ -207,12 +209,7 @@ def main():
             price_with_IVA= ideal_price*(1+float(iva_entry.get()))
             Resul_iva_entry.delete(0, tk.END)
             Resul_iva_entry.insert(0, f"{price_with_IVA:,.2f}")
-            
-
         
-            print(f"Precio de venta mínimo sugerido: {ideal_price:,.2f}\n")
-
-            
         except ValueError:
             print(f"Error: valor inválido {ValueError}")
             result_entry.delete(0, tk.END)
@@ -221,6 +218,40 @@ def main():
             print(f"Error: {Exception}")
             result_entry.delete(0, tk.END)
             result_entry.insert(0, "Error: cálculo fallido")
+            
+        register_history = {
+            
+            "date": datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
+            "productCost": round(cost, 2),
+            "technicalCost": round(technical_cost, 2),
+            "logysticsCost": round(logystics, 2),
+            "costBeforeTaxes": round(cost_before_taxes, 2), 
+            "price": round(ideal_price, 2),
+            "priceWithIVA": round(price_with_IVA, 2),
+        }
+        cotizaciones = []
+        try:
+            with open("archivos/cotizaciones.json", "r") as fileRead:
+                cotizaciones = json.load(fileRead)
+                if not isinstance(cotizaciones, list):
+                    cotizaciones = []  # Si no es una lista, creamos una nueva lista
+        except FileNotFoundError:
+            log("Error")
+            
+        if register_history not in cotizaciones:
+            cotizaciones.append(register_history)
+        else:
+            log("Registro ya existe en cotizaciones. No se agregará de nuevo.")
+                        
+        try:
+            with open("archivos/cotizaciones.json", "w") as file:     
+             json.dump(cotizaciones, file, indent=4)
+        except FileNotFoundError:
+            log("No se pudo guardar los usuarios en el archivo JSON. Por favor, asegúrate de que la carpeta archivos exista y tenga permisos de escritura.")
+        except Exception as e:
+            log(f"Error al guardar los usuarios en el archivo JSON: {e}")
+    
+        print(f"Precio de venta mínimo sugerido: {ideal_price:,.2f}\n")
 
 
     def update_iva(event=None):
@@ -229,6 +260,17 @@ def main():
         tax_exempt_entry.insert(0, f"{client}")
         iva_entry.delete(0, tk.END)
         iva_entry.insert(0, f"{list(filter(lambda cl: cl[0] == client, CLIENTS))[0][1]}")
+        
+    def generatePDFFile(event=None):
+        try:
+            with open("archivos/cotizaciones.json", "r") as fileRead:
+                cotizaciones = json.load(fileRead)
+                if not isinstance(cotizaciones, list):
+                    cotizaciones = []  # Si no es una lista, creamos una nueva lista
+        except FileNotFoundError:
+            log("Error")
+            
+        exportToPDF(cotizaciones)
 
 
 
@@ -275,6 +317,8 @@ def main():
     tax_exempt_check = tk.Checkbutton(query_frame, variable=tax_exempt_var, text='Exentos IVA', onvalue=1, offvalue=0, command=filter_clients)
     iva_entry = ttk.Entry(query_frame, width=30)
     Resul_iva_entry = ttk.Entry(query_frame, width=30)
+    pdf_button = ttk.Button(query_frame, text="Export to PDF", command=generatePDFFile)
+    
    
     product_entry.grid(row=0, column=1)
     tax_exempt_entry.grid(row=1, column=1)
@@ -286,6 +330,7 @@ def main():
     result_entry.grid(row=6, column=1)
     iva_entry.grid(row=7, column=1)
     Resul_iva_entry.grid(row=8, column=1)
+    pdf_button.grid(row=9, column=0, columnspan=3)
        
     # update cost input when choosing a product from combobox
    
