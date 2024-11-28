@@ -1,50 +1,5 @@
 [
     {
-        "date": "2024-11-28T20:34:31",
-        "productCost": 85000,
-        "technicalCost": 33,
-        "logysticsCost": 333.0,
-        "costBeforeTaxes": 85366.0,
-        "price": 225542.47,
-        "priceWithIVA": 272906.39
-    },
-    {
-        "date": "2024-11-28T20:34:31",
-        "productCost": 85000,
-        "technicalCost": 33,
-        "logysticsCost": 333.0,
-        "costBeforeTaxes": 85366.0,
-        "price": 225542.47,
-        "priceWithIVA": 272906.39
-    },
-    {
-        "date": "2024-11-28T20:34:47",
-        "productCost": 87440,
-        "technicalCost": 44,
-        "logysticsCost": 44.0,
-        "costBeforeTaxes": 87528.0,
-        "price": 231271.17,
-        "priceWithIVA": 279838.12
-    },
-    {
-        "date": "2024-11-28T20:34:47",
-        "productCost": 87440,
-        "technicalCost": 44,
-        "logysticsCost": 44.0,
-        "costBeforeTaxes": 87528.0,
-        "price": 231271.17,
-        "priceWithIVA": 279838.12
-    },
-    {
-        "date": "2024-11-28T20:36:50",
-        "productCost": 130282,
-        "technicalCost": 55,
-        "logysticsCost": 55.0,
-        "costBeforeTaxes": 130392.0,
-        "price": 344529.94,
-        "priceWithIVA": 416881.23
-    },
-    {
         "date": "2024-11-28T20:43:35",
         "productCost": 33250,
         "technicalCost": 1232,
