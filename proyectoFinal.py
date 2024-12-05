@@ -95,7 +95,7 @@ def register():
     reg_password_entry.delete(0, tk.END)
 
     # Guarda los usuarios en el archivo JSON
-    save_users()
+    save_users(USUARIOS)
 
     # Ceierra la ventana de registro
     registration_window.destroy()
